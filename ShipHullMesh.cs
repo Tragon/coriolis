@@ -53,8 +53,8 @@ public class ShipHullMesh : MonoBehaviour
 		for(int i = a; i < b; i++) {
 			AddTriangle(
 				c,
-				c + HexMetrics.corners[i % 6],
-				c + HexMetrics.corners[(i + 1) % 6]
+				c + HexMetrics.cornersShip[i % 6],
+				c + HexMetrics.cornersShip[(i + 1) % 6]
 			);
 		}
 	}

@@ -33,15 +33,19 @@ public class HexMesh: MonoBehaviour
 		AddTriangle(center, 0, 6);
 	}
 
+	Vector3 scaleBase = new Vector3(HexMetrics.radFactor * HexMetrics.scaler / 3f, 0f, 0f);
+
 	void AddTriangle(Vector3 c, int a, int b) {
 		for(int i = a; i < b; i++) {
+			Vector3 rot = Quaternion.AngleAxis(60 * (i-1), Vector3.up) * scaleBase;
 			AddTriangle(
-				c,
-				c + HexMetrics.corners[i % 6],
-				c + HexMetrics.corners[(i + 1) % 6]
+				c + rot,
+				c + rot + HexMetrics.corners[i % 6],
+				c + rot + HexMetrics.corners[(i + 1) % 6]
 			);
 		}
 	}
+	Vector3 scaler = new Vector3(0.9f, 0.9f, 0.9f);
 
 	void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3) {
 		int vertexIndex = vertices.Count;
