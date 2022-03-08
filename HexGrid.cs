@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,18 +19,18 @@ public class HexGrid: MonoBehaviour
 
 	Canvas gridCanvas;
 	HexMesh hexMesh;
-	HexCell[] cells;
-	Ship[] ships;
+	List<HexCell> cells = new List<HexCell>();
+	List<Ship> ships = new List<Ship>();
 
 	int activeShip = 0;
 
+	bool directControls = false;
+
 	void Awake() {
 		int offX = width / 2;
-		int offY = width / 2;
+		int offY = height / 2;
 		gridCanvas = GetComponentInChildren<Canvas>();
 		hexMesh = GetComponentInChildren<HexMesh>();
-		cells = new HexCell[height * width];
-		ships = new Ship[shipsEnemy + shipsFriend];
 
 		for(int z = 0, i = 0; z < height; z++) {
 			for(int x = 0; x < width; x++) {
@@ -39,36 +40,55 @@ public class HexGrid: MonoBehaviour
 
 		for(int i = 0; i < shipsEnemy; i++) {
 			GameObject shipObj = Instantiate<GameObject>(shipPrefabEnemy);
-			Ship ship = ships[i] = shipObj.GetComponentInChildren<Ship>();
-			ship.CreateShip(i, 0);
+			Ship ship = shipObj.GetComponentInChildren<Ship>();
+			ship.CreateShip(i, 0, "Enemy Ship " + i, false);
+			ships.Add(ship);
 		}
 
 		for(int i = 0; i < shipsFriend; i++) {
 			GameObject shipObj = Instantiate<GameObject>(shipPrefabFriend);
-			Ship ship = ships[i + shipsEnemy] = shipObj.GetComponentInChildren<Ship>();
-			ship.CreateShip(i, 1);
+			Ship ship = shipObj.GetComponentInChildren<Ship>();
+			ship.CreateShip(i, 1, "Ship " + i, true);
+			ships.Add(ship);
 		}
 	}
 
-	void Start() {
-		hexMesh.Triangulate(cells);
+    public Ship AddShip(string name, bool isPlayer) {
+		GameObject skin = isPlayer ? shipPrefabFriend : shipPrefabEnemy;
+		GameObject shipObj = Instantiate<GameObject>(skin);
+		Ship ship = shipObj.GetComponentInChildren<Ship>();
+		ship.CreateShip(ships.FindAll(x => x.IsPlayer == isPlayer).Count, isPlayer ? 1 : 0, name, isPlayer);
+		ships.Add(ship);
+		return ship;
 	}
-	void OnGUI() {
-		string[] shipNames = new string[shipsFriend + shipsEnemy];
-		for(int i = 0; i < (shipsFriend + shipsEnemy); i++) {
-			shipNames[i] = "Ship " + i;
-		}
-		activeShip = GUILayout.SelectionGrid(activeShip, shipNames, 1);
-		if(GUILayout.Button("Forward")) {
-			ships[activeShip].forward();
-		}
-		if(GUILayout.Button("Right")) {
-			ships[activeShip].right();
-		}
-		if(GUILayout.Button("Left")) {
-			ships[activeShip].left();
-		}
+
+    void Start() {
+		hexMesh.Triangulate(cells.ToArray());
 	}
+
+	public void SetDirectControls(bool directControls) {
+		this.directControls = directControls;
+
+	}
+
+	/*void OnGUI() {
+		if(directControls) {
+			string[] shipNames = new string[shipsFriend + shipsEnemy];
+			for(int i = 0; i < (shipsFriend + shipsEnemy); i++) {
+				shipNames[i] = "Ship " + i;
+			}
+			activeShip = GUILayout.SelectionGrid(activeShip, shipNames, 1);
+			if(GUILayout.Button("Forward")) {
+				ships[activeShip].forward();
+			}
+			if(GUILayout.Button("Right")) {
+				ships[activeShip].right();
+			}
+			if(GUILayout.Button("Left")) {
+				ships[activeShip].left();
+			}
+		}
+	}*/
 
 	void CreateCell(int x, int z, int i) {
 		Vector3 position;
@@ -76,7 +96,8 @@ public class HexGrid: MonoBehaviour
 		position.y = 0f;
 		position.z = z * (HexMetrics.outerRadius * 1.5f);
 
-		HexCell cell = cells[i] = new HexCell();// Instantiate<HexCell>(cellPrefab);
+		HexCell cell = new HexCell();// Instantiate<HexCell>(cellPrefab);
+		cells.Add(cell);
 		//cell.transform.SetParent(transform, false);
 		//cell.transform.localPosition = position;
 		cell.localPosition = position;
