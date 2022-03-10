@@ -14,6 +14,8 @@ public class GamePlay : MonoBehaviour
     public TMPro.TMP_Text ShipSelectionLabel;
     public TMPro.TMP_Text ShipCreationInput;
     public TMPro.TMP_Text ShipCreationPosInput;
+    public TMPro.TMP_Text LoadInput;
+    public TMPro.TMP_InputField SaveInput;
     public Toggle ShipCreationFactionToggle;
     public GameObject StartGameButton;
     public Canvas GameUI;
@@ -470,7 +472,7 @@ public class GamePlay : MonoBehaviour
     }
 
     public void Load() {
-        string saveString = GUIUtility.systemCopyBuffer;
+        string saveString = LoadInput.text; // GUIUtility.systemCopyBuffer;
         Debug.LogWarning(saveString);
         string[] splits = saveString.Split(";");
         foreach(string split in splits) {
@@ -493,6 +495,8 @@ public class GamePlay : MonoBehaviour
         foreach(Ship ship in ships.Values) {
             saveString += ship.Name + "///" + ship.IsPlayer + "///" + ship.tcoord.ToStringInverted() + (ship.orientation + 60) + ";";
         }
-        GUIUtility.systemCopyBuffer = saveString;
+        Debug.LogError(saveString);
+        SaveInput.text = saveString;
+        //SaveInput.SetText(saveString); // GUIUtility.systemCopyBuffer;
     }
 }
