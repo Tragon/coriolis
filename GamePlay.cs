@@ -58,16 +58,19 @@ public class GamePlay : MonoBehaviour
         if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) {
             Vector3 pos = transform.position;
             pos += ms * new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-            pos.x = Mathf.Clamp(-21f, pos.x, 57f);
-            pos.z = Mathf.Clamp(-57f, pos.z, 21f);
-            
+            pos.x = Mathf.Clamp(pos.x, -21f, 57f);
+            pos.z = Mathf.Clamp(pos.z, -57f, 21f);
+
+            lastManualPosition = pos;
             transform.position = pos;
         }
 
         if(Input.GetAxis("Mouse ScrollWheel") != 0) {
             Vector3 pos = transform.position;
             pos += ss * new Vector3(0, -Input.GetAxis("Mouse ScrollWheel"), 0);
-            pos.y = Mathf.Clamp(-14f, pos.y, 42f);
+            pos.y = Mathf.Clamp(pos.y, -14f, 42f);
+
+            lastManualPosition = pos;
             transform.position = pos;
         }
     } 
