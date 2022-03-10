@@ -468,4 +468,31 @@ public class GamePlay : MonoBehaviour
             transform.position = position;
         }
     }
+
+    public void Load() {
+        string saveString = GUIUtility.systemCopyBuffer;
+        Debug.LogWarning(saveString);
+        string[] splits = saveString.Split(";");
+        foreach(string split in splits) {
+            string[] info = split.Split("///");
+            if (info.Length == 3) {
+                string name = info[0];
+                bool isPlayer = info[1].Equals("True");
+                string pos = info[2];
+                Debug.LogWarning(name + " - " + isPlayer + " - " + pos);
+                ShipSelectionDropdown.AddOptions(new List<string>() { name });
+                Ship ship = grid.AddShip(name, isPlayer, pos);
+                ships.Add(name, ship);
+            }
+        }
+        CheckSetupReady();
+    }
+
+    public void Save() {
+        string saveString = "";
+        foreach(Ship ship in ships.Values) {
+            saveString += ship.Name + "///" + ship.IsPlayer + "///" + ship.tcoord.ToStringInverted() + (ship.orientation + 60) + ";";
+        }
+        GUIUtility.systemCopyBuffer = saveString;
+    }
 }
