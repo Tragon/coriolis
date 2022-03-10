@@ -4222,6 +4222,8 @@ MonoBehaviour:
   ShipInstructionPrefab: {fileID: 816273255354348623, guid: d210094e95ef79240a97857fa213b133, type: 3}
   GameBackButton: {fileID: 792612506}
   GameNextButton: {fileID: 1092131232}
+  moveSpeed: 10
+  scrollSpeed: 1000
 --- !u!1 &980409239
 GameObject:
   m_ObjectHideFlags: 0

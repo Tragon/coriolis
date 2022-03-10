@@ -21,6 +21,9 @@ public class GamePlay : MonoBehaviour
     public Button GameBackButton;
     public Button GameNextButton;
 
+    public float moveSpeed = 10f;
+    public float scrollSpeed = 10f;
+
     private float GameUIShipInstructionOffset = -90f;
     private float GameUIShipInstructionHeight = 50f;
     private GameState currentState = GameState.Startup;
@@ -41,6 +44,33 @@ public class GamePlay : MonoBehaviour
         grid.SetDirectControls(true);
         lastManualPosition = transform.position;
     }
+
+    void Update() {
+        UpdateGame();
+        if (currentState == GameState.Game) {
+            //UpdateGame();
+        }
+    }
+
+    private void UpdateGame() {
+        float ms = moveSpeed * Time.deltaTime;
+        float ss = scrollSpeed * Time.deltaTime;
+        if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) {
+            Vector3 pos = transform.position;
+            pos += ms * new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+            pos.x = Mathf.Clamp(-21f, pos.x, 57f);
+            pos.z = Mathf.Clamp(-57f, pos.z, 21f);
+            
+            transform.position = pos;
+        }
+
+        if(Input.GetAxis("Mouse ScrollWheel") != 0) {
+            Vector3 pos = transform.position;
+            pos += ss * new Vector3(0, -Input.GetAxis("Mouse ScrollWheel"), 0);
+            pos.y = Mathf.Clamp(-14f, pos.y, 42f);
+            transform.position = pos;
+        }
+    } 
 
     public void StartGame() {
         currentState = GameState.Game;

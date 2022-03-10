@@ -83,7 +83,7 @@ public class ShipInstruction : MonoBehaviour
     }
 
     public void ResetInfo() {
-        InfoText.text = ship.tcoord.ToString() + HexMetrics.mod(ship.orientation + 60, 360).ToString();
+        InfoText.text = ship.tcoord.ToStringInverted() + HexMetrics.mod(ship.orientation + 60, 360).ToString();
     }
     public void AddInfo(String text) {
         string oldText = InfoText.text;

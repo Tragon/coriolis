@@ -31,6 +31,10 @@ public struct TriangleCoordinate
 	}
 
 	public override string ToString() {
+		return Z.ToString() + GetColNameFromIndex(X);
+	}
+
+	public string ToStringInverted() {
 		return (-Z).ToString() + GetColNameFromIndex(X);
 	}
 
