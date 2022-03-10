@@ -10,7 +10,7 @@ public class HexGrid: MonoBehaviour
 	public int height = 6;
 	public int shipsFriend = 2;
 	public int shipsEnemy = 2;
-	public bool enableLabel = false;
+	public bool enableLabel = true;
 
 	public HexCell cellPrefab;
 	public Text cellLabelPrefab;
@@ -27,8 +27,8 @@ public class HexGrid: MonoBehaviour
 	bool directControls = false;
 
 	void Awake() {
-		int offX = width / 2;
-		int offY = height / 2;
+		int offX = (int)(width / 3f);
+		int offY = (int)(height / 1.5f);
 		gridCanvas = GetComponentInChildren<Canvas>();
 		hexMesh = GetComponentInChildren<HexMesh>();
 
@@ -53,11 +53,18 @@ public class HexGrid: MonoBehaviour
 		}
 	}
 
-    public Ship AddShip(string name, bool isPlayer) {
+    public Ship AddShip(string name, bool isPlayer, String pos) {
 		GameObject skin = isPlayer ? shipPrefabFriend : shipPrefabEnemy;
 		GameObject shipObj = Instantiate<GameObject>(skin);
 		Ship ship = shipObj.GetComponentInChildren<Ship>();
-		ship.CreateShip(ships.FindAll(x => x.IsPlayer == isPlayer).Count, isPlayer ? 1 : 0, name, isPlayer);
+		Debug.LogWarning("Position:" + pos + "L:"+pos.Length);
+		if (pos.Equals(String.Empty)) {
+			Debug.LogWarning("Autogen");
+			ship.CreateShip(ships.FindAll(x => x.IsPlayer == isPlayer).Count, isPlayer ? 1 : 0, name, isPlayer);
+		} else {
+			Debug.LogWarning("Placing...");
+			ship.CreateShip(TriangleCoordinate.FromTextInput(pos), name, isPlayer);
+		}
 		ships.Add(ship);
 		return ship;
 	}
@@ -91,10 +98,10 @@ public class HexGrid: MonoBehaviour
 	}*/
 
 	void CreateCell(int x, int z, int i) {
-		Vector3 position;
-		position.x = (x + z * 0.5f - z / 2) * (HexMetrics.innerRadius * 2f);
-		position.y = 0f;
-		position.z = z * (HexMetrics.outerRadius * 1.5f);
+		Vector3 position = HexMetrics.FromOffsetCoordinates(x, z);
+		//position.x = (x + z * 0.5f - z / 2) * (HexMetrics.innerRadius * 2f);
+		//position.y = 0f;
+		//position.z = z * (HexMetrics.outerRadius * 1.5f);
 
 		HexCell cell = new HexCell();// Instantiate<HexCell>(cellPrefab);
 		cells.Add(cell);
@@ -108,7 +115,15 @@ public class HexGrid: MonoBehaviour
 			label.rectTransform.SetParent(gridCanvas.transform, false);
 			label.rectTransform.anchoredPosition =
 				new Vector2(position.x, position.z);
-			label.text = cell.coordinates.ToStringOnSeparateLines();
+			//label.text = new TriangleCoordinate((x - z / 2) * 2, x).ToTupleString();
+			//label.text = new TriangleCoordinate(z * -3, x * -2 - 50).ToTupleString(); // rows are fine
+			//label.text = (x * 2 + z % 2) + "," + (-z * 3);//new TriangleCoordinate(z * -3, x * -2 - (z * -3)).ToTupleString();
+			//label.text = TriangleCoordinate.FromOffsetCoordinates(x, z).ToString();
+			TriangleCoordinate tc = TriangleCoordinate.FromWorldCoordinates(position);
+			label.text = tc.ToString();
+			if (Vector3.Distance(position, tc.ToWorldCoordinates()) > 0.1f) {
+				throw new Exception(position + " - " + tc.ToWorldCoordinates());
+            }
 		}
 	}
 

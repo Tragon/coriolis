@@ -13,6 +13,7 @@ public class GamePlay : MonoBehaviour
     public TMPro.TMP_Dropdown ShipSelectionDropdown;
     public TMPro.TMP_Text ShipSelectionLabel;
     public TMPro.TMP_Text ShipCreationInput;
+    public TMPro.TMP_Text ShipCreationPosInput;
     public Toggle ShipCreationFactionToggle;
     public GameObject StartGameButton;
     public Canvas GameUI;
@@ -29,6 +30,7 @@ public class GamePlay : MonoBehaviour
     private int stepsPerRound = 5;
     private int bonusSteps = -1;
     private bool simpleMode = true;
+    private Vector3 lastManualPosition;
 
     Dictionary<string, Ship> ships = new Dictionary<string, Ship>();
     Dictionary<string, ShipInstruction> instructions = new Dictionary<string, ShipInstruction>();
@@ -37,6 +39,7 @@ public class GamePlay : MonoBehaviour
     void Start()
     {
         grid.SetDirectControls(true);
+        lastManualPosition = transform.position;
     }
 
     public void StartGame() {
@@ -56,12 +59,13 @@ public class GamePlay : MonoBehaviour
     public void AddShip(Canvas canvas) {
         bool isPlayer = ShipCreationFactionToggle.isOn;
         string name = ShipCreationInput.text;
+        string pos = ShipCreationPosInput.text;
         if (ships.ContainsKey(name)) {
             Debug.LogError("Ship with that name already exists");
             return;
         }
         ShipSelectionDropdown.AddOptions(new List<string>() { name });
-        Ship ship = grid.AddShip(name, isPlayer);
+        Ship ship = grid.AddShip(name, isPlayer, pos);
         ships.Add(name, ship);
         if (!StartGameButton.activeSelf) {
             bool friend = false;
@@ -408,9 +412,13 @@ public class GamePlay : MonoBehaviour
     }
 
     public void MoveCamera(Ship ship) {
-        Vector3 position = ship.transform.position;
-        position.y = 0;
-        position.z -= 12;
-        transform.position = position;
+        if(ship == null) {
+            transform.position = lastManualPosition;
+        } else {
+            Vector3 position = ship.transform.position;
+            position.y = 0;
+            position.z -= 12;
+            transform.position = position;
+        }
     }
 }

@@ -78,8 +78,12 @@ public class ShipInstruction : MonoBehaviour
         gamePlay.MoveCamera(ship);
     }
 
+    public void Deselected() {
+        gamePlay.MoveCamera(null);
+    }
+
     public void ResetInfo() {
-        InfoText.text = String.Empty;
+        InfoText.text = ship.tcoord.ToString() + HexMetrics.mod(ship.orientation + 60, 360).ToString();
     }
     public void AddInfo(String text) {
         string oldText = InfoText.text;
