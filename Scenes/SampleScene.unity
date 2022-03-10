@@ -1322,6 +1322,7 @@ GameObject:
   - component: {fileID: 203058238}
   - component: {fileID: 203058237}
   - component: {fileID: 203058236}
+  - component: {fileID: 203058239}
   m_Layer: 5
   m_Name: LoadInput
   m_TagString: Untagged
@@ -1486,6 +1487,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203058234}
   m_CullTransparentMesh: 1
+--- !u!114 &203058239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203058234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc33a39070010f94fb1c2dd721c1286d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showHtmlElement: 0
 --- !u!1 &208121497
 GameObject:
   m_ObjectHideFlags: 0
@@ -3649,6 +3663,7 @@ GameObject:
   - component: {fileID: 632312322}
   - component: {fileID: 632312321}
   - component: {fileID: 632312320}
+  - component: {fileID: 632312323}
   m_Layer: 5
   m_Name: ShipNameInput
   m_TagString: Untagged
@@ -3813,6 +3828,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 632312318}
   m_CullTransparentMesh: 1
+--- !u!114 &632312323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632312318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc33a39070010f94fb1c2dd721c1286d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showHtmlElement: 0
 --- !u!1 &656877220
 GameObject:
   m_ObjectHideFlags: 0
@@ -4265,6 +4293,7 @@ GameObject:
   - component: {fileID: 710858170}
   - component: {fileID: 710858169}
   - component: {fileID: 710858168}
+  - component: {fileID: 710858171}
   m_Layer: 5
   m_Name: SaveInput
   m_TagString: Untagged
@@ -4429,6 +4458,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 710858166}
   m_CullTransparentMesh: 1
+--- !u!114 &710858171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710858166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc33a39070010f94fb1c2dd721c1286d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showHtmlElement: 0
 --- !u!1 &751760009
 GameObject:
   m_ObjectHideFlags: 0
@@ -4794,6 +4836,7 @@ GameObject:
   - component: {fileID: 861304968}
   - component: {fileID: 861304967}
   - component: {fileID: 861304966}
+  - component: {fileID: 861304969}
   m_Layer: 5
   m_Name: ShipPosInput
   m_TagString: Untagged
@@ -4958,6 +5001,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 861304964}
   m_CullTransparentMesh: 1
+--- !u!114 &861304969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861304964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc33a39070010f94fb1c2dd721c1286d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showHtmlElement: 0
 --- !u!1 &918184020
 GameObject:
   m_ObjectHideFlags: 0
