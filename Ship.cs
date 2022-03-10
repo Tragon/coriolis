@@ -32,7 +32,9 @@ public class Ship: MonoBehaviour
         pos.z += 0.5f;
         transform.position += Quaternion.AngleAxis(transform.rotation.eulerAngles.y, Vector3.up) * pos;
         tcoord = TriangleCoordinate.FromGlobalCoordinates(transform.position);
-        instructions.ResetInfo();
+        if(instructions != null) {
+            instructions.ResetInfo();
+        }
         //Refresh();
     }
 
@@ -45,7 +47,9 @@ public class Ship: MonoBehaviour
         Debug.LogError(Name + " Pre:" + transform.position + " Post:" + newPos + " PreTC:" + tcoord + " PostTC:" + TriangleCoordinate.FromWorldCoordinates(newPos));
         tcoord = TriangleCoordinate.FromGlobalCoordinates(newPos);
         transform.position = tcoord.ToGlobalCoordinates() + new Vector3(0f, -14.95f, 0f);
-        instructions.ResetInfo();
+        if(instructions != null) {
+            instructions.ResetInfo();
+        }
         //Refresh();
     }
 
@@ -55,7 +59,9 @@ public class Ship: MonoBehaviour
         pos.z += 0.5f;
         transform.position -= Quaternion.AngleAxis(transform.rotation.eulerAngles.y, Vector3.up) * pos;
         tcoord = TriangleCoordinate.FromGlobalCoordinates(transform.position);
-        instructions.ResetInfo();
+        if(instructions != null) {
+            instructions.ResetInfo();
+        }
         //Refresh();
     }
 
@@ -67,20 +73,26 @@ public class Ship: MonoBehaviour
         newPos -= Quaternion.AngleAxis(transform.rotation.eulerAngles.y, Vector3.up) * pos;
         tcoord = TriangleCoordinate.FromGlobalCoordinates(newPos);
         transform.position = tcoord.ToGlobalCoordinates() + new Vector3(0f, -14.95f, 0f);
-        instructions.ResetInfo();
+        if(instructions != null) {
+            instructions.ResetInfo();
+        }
         //Refresh();
     }
 
     internal void right() {
         orientation = HexMetrics.mod(orientation + 60, 360);
         transform.rotation = Quaternion.Euler(0, orientation, 0);
-        instructions.ResetInfo();
+        if(instructions != null) {
+            instructions.ResetInfo();
+        }
     }
 
     internal void left() {
         orientation = HexMetrics.mod(orientation - 60, 360);
         transform.rotation = Quaternion.Euler(0, orientation, 0);
-        instructions.ResetInfo();
+        if(instructions != null) {
+            instructions.ResetInfo();
+        }
     }
 
     public void CreateShip(int i, int off, string name, bool isPlayer) {
