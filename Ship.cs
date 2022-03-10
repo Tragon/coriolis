@@ -103,7 +103,7 @@ public class Ship: MonoBehaviour
         CreateShip(i, off);
     }
 
-    public void CreateShip(TriangleCoordinate pos, string name, bool isPlayer) {
+    public void CreateShip(Tuple<TriangleCoordinate, int> pos, string name, bool isPlayer) {
         this.Name = name;
         this.IsPlayer = isPlayer;
         orientation = 0;
@@ -111,8 +111,8 @@ public class Ship: MonoBehaviour
         CreateShip(pos);
     }
 
-    public void CreateShip(TriangleCoordinate pos) {
-        Vector3 position = pos.ToGlobalCoordinates();
+    public void CreateShip(Tuple<TriangleCoordinate, int> pos) {
+        Vector3 position = pos.Item1.ToGlobalCoordinates();
         position.y = -14.95f;
         transform.position = position;
 
@@ -122,6 +122,13 @@ public class Ship: MonoBehaviour
 
         hull = GetComponentInChildren<ShipHullMesh>();
         tower = GetComponentInChildren<ShipTowerMesh>();
+
+        Debug.LogWarning("Start left " + pos.Item2);
+        left();
+        for (int i = 0; i < pos.Item2; i+=60) {
+            Debug.LogWarning("Turning right");
+            right();
+        }
     }
 
     public void CreateShip(int i, int off) {

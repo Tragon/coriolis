@@ -132,16 +132,19 @@ public struct TriangleCoordinate
 		return new Vector3(x, 0f, z);
 	}
 
-	public static TriangleCoordinate FromTextInput(string coord) {
-		Match match = Regex.Match(coord, @"(-?[\d]*)(-?\w*)");
+	public static Tuple<TriangleCoordinate, int> FromTextInput(string coord) {
+		Match match = Regex.Match(coord, @"(-?[\d]*)(-?[A-Za-z]*)(\d*)");
 		if (match.Success) {
 			string vx = match.Groups[1].Value;
+			string vr = match.Groups[3].Value;
 			int z = String.Empty.Equals(vx) ? 0 : int.Parse(vx);
 			int x = GetColNumberFromName(match.Groups[2].Value);
+			int r = String.Empty.Equals(vr) ? 0 : int.Parse(vr);
 			Debug.LogWarning("Z: " + match.Groups[1].Value + " = " + z);
 			Debug.LogWarning("X: " + match.Groups[2].Value + " = " + x);
-			return new TriangleCoordinate(x, -z);
+			Debug.LogWarning("R: " + match.Groups[2].Value + " = " + r);
+			return new Tuple<TriangleCoordinate, int>(new TriangleCoordinate(x, -z), r);
 		}
-		return new TriangleCoordinate();
+		return new Tuple<TriangleCoordinate, int>(new TriangleCoordinate(), 0);
 	}
 }
