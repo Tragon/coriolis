@@ -100,20 +100,34 @@ public class GamePlay : MonoBehaviour
         ShipSelectionDropdown.AddOptions(new List<string>() { name });
         Ship ship = grid.AddShip(name, isPlayer, pos);
         ships.Add(name, ship);
-        if (!StartGameButton.activeSelf) {
-            bool friend = false;
-            bool foe = false;
-            foreach (Ship s in ships.Values) {
-                if (s.IsPlayer) {
-                    friend = true;
-                } else {
-                    foe = true;
-                }
+        CheckSetupReady();
+    }
+
+    public void DeleteShip() {
+        Ship ship = getShip();
+        if(ship != null) {
+            ships.Remove(ship.Name);
+            ShipSelectionDropdown.ClearOptions();
+            foreach (string sname in ships.Keys) {
+                ShipSelectionDropdown.AddOptions(new List<string>() { sname });
             }
-            if (friend && foe) {
-                StartGameButton.SetActive(true);
+
+            GameObject.Destroy(ship.gameObject);
+            CheckSetupReady();
+        }
+    }
+
+    private void CheckSetupReady() {
+        bool friend = false;
+        bool foe = false;
+        foreach(Ship s in ships.Values) {
+            if(s.IsPlayer) {
+                friend = true;
+            } else {
+                foe = true;
             }
         }
+        StartGameButton.SetActive(friend && foe);
     }
 
     public void GameBack() {
